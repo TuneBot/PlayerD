@@ -2,8 +2,10 @@ package dominic.playerd;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,13 +20,15 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ShareFragment.OnFragmentInteractionListener {
-
+    Toolbar toolbar;
+    TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -85,10 +89,12 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            tabLayout.setVisibility(View.VISIBLE);
             CameraFragment cameraFragment = new CameraFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_main, cameraFragment, cameraFragment.getTag()).commit();
         } else if (id == R.id.nav_gallery) {
+            tabLayout.setVisibility(View.GONE);
             GalleryFragment galleryFragment = GalleryFragment.newInstance("some1", "some2");
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_main, galleryFragment, galleryFragment.getTag()).commit();
@@ -97,6 +103,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+            tabLayout.setVisibility(View.GONE);
             ShareFragment shareFragment = new ShareFragment().newInstance(2);
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_main, shareFragment, shareFragment.getTag()).commit();
